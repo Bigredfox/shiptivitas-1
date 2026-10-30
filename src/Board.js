@@ -10,9 +10,9 @@ export default class Board extends React.Component {
     const clients = this.getClients();
     this.state = {
       clients: {
-        backlog: clients.filter(client => !client.status || client.status === 'backlog'),
-        inProgress: clients.filter(client => client.status && client.status === 'in-progress'),
-        complete: clients.filter(client => client.status && client.status === 'complete'),
+        backlog: clients,
+        inProgress: [],
+        complete: [],
       }
     }
     this.swimlanes = {
@@ -21,6 +21,36 @@ export default class Board extends React.Component {
       complete: React.createRef(),
     }
   }
+  componentDidMount() {
+    this.drake = Dragula(Object.values(this.swimlanes).map(ref => ref.current), {
+      revertOnSpill: true,
+    });
+    this.drake.on('drag', (element, source) => {
+      this.dragOrigin = { source, sibling: element.nextSibling };
+    });
+    this.drake.on('drop', element => {
+      const statuses = { backlog: 'backlog', inProgress: 'in-progress', complete: 'complete' };
+      const byId = {};
+      Object.values(this.state.clients).forEach(clients => {
+        clients.forEach(client => { byId[client.id] = client; });
+      });
+      const clients = {};
+      Object.keys(this.swimlanes).forEach(lane => {
+        clients[lane] = Array.from(this.swimlanes[lane].current.children).map(card => ({
+          ...byId[card.dataset.id], status: statuses[lane],
+        }));
+      });
+      // Restore React's expected DOM before it reconciles the new order and status.
+      this.dragOrigin.source.insertBefore(element, this.dragOrigin.sibling);
+      this.setState({ clients });
+      this.dragOrigin = null;
+    });
+  }
+
+  componentWillUnmount() {
+    this.drake.destroy();
+  }
+
   getClients() {
     return [
       ['1','Stark, White and Abbott','Cloned Optimal Architecture', 'in-progress'],
@@ -47,7 +77,7 @@ export default class Board extends React.Component {
       id: companyDetails[0],
       name: companyDetails[1],
       description: companyDetails[2],
-      status: companyDetails[3],
+      status: 'backlog',
     }));
   }
   renderSwimlane(name, clients, ref) {
@@ -59,6 +89,11 @@ export default class Board extends React.Component {
   render() {
     return (
       <div className="Board">
+        <header className="Board-heading">
+          <div><h1>Shipping requests</h1><p>{Object.values(this.state.clients).reduce((total, clients) => total + clients.length, 0)} requests · {this.state.clients.backlog.length} waiting to start</p></div>
+          <span className="Board-view">Kanban board</span>
+        </header>
+        <div className="Board-toolbar"><span>All requests</span><span>Drag cards to update progress</span></div>
         <div className="container-fluid">
           <div className="row">
             <div className="col-md-4">

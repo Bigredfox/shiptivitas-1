@@ -78,3 +78,27 @@ then use it by calling `Dragula` directly.
 
 Visit Dragula repository on github for more information
 [https://github.com/bevacqua/dragula](https://github.com/bevacqua/dragula)
+
+## Kanban behavior and verification
+
+All 20 shipping requests initially appear in Backlog. Drag a card within a lane
+to reorder it, or between Backlog, In Progress, and Complete to change its status.
+Cards are grey, blue, and green respectively. Dropping outside the lanes restores
+the card. Order and status remain in memory when switching tabs; refreshing the
+page resets the board. No backend changes are required.
+
+Install dependencies with `npm ci`. Run the acceptance tests with
+`npm test -- --watch=false --runInBand --watchman=false`.
+
+On modern Node versions, this project's legacy Webpack requires the OpenSSL
+compatibility option. In PowerShell, run:
+
+```powershell
+$env:NODE_OPTIONS='--openssl-legacy-provider'
+npm start
+```
+
+Use `npm run build` with the same environment setting for a production build.
+For a manual check, open Shipping Requests, drag cards up and down, move cards
+into each lane (including an empty lane), and verify their order and color.
+Switch to Home and back to verify the board is retained.

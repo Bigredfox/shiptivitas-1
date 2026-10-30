@@ -10,6 +10,7 @@
 
 # production
 /build
+/.taste-skill
 
 # misc
 .DS_Store

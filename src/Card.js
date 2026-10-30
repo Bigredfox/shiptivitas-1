@@ -13,7 +13,9 @@ export default class Card extends React.Component {
     }
     return (
       <div className={className.join(' ')} data-id={this.props.id} data-status={this.props.status}>
+        <div className="Card-meta"><span>Request #{this.props.id.padStart(3, '0')}</span><span className="Card-grip" aria-hidden="true">⠿</span></div>
         <div className="Card-title">{this.props.name}</div>
+        <p className="Card-description">{this.props.description}</p>
       </div>
     );
   }
