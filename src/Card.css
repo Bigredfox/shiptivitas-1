@@ -1,25 +1,12 @@
-.Card {
-  background-color: lightgrey;
-  font-size: 12px;
-  padding: 20px;
-  margin-bottom: 10px;
-}
-
-.Card-grey {
-  background-color: rgba(167, 158, 158, 0.671);
-  color: black;
-}
-
-.Card-blue {
-  background-color: skyblue;
-  color: white;
-}
-
-.Card-green {
-  background-color: rgb(150, 190, 150);
-  color: white;
-}
-
-.Card-title {
-  font-weight: bold;
-}
+.Card { background: var(--surface); padding: 16px; margin-bottom: 8px; border: 1px solid var(--border); border-radius: 6px; cursor: grab; color: var(--text); }
+.Card:last-child { margin-bottom: 0; }
+.Card-grey { background: var(--surface); }
+.Card-blue { background: var(--blue); border-color: #c6d9f4; }
+.Card-green { background: var(--green); border-color: #c4dfcc; }
+.Card-meta { display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-size: 13px; margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+.Card-grip { font-size: 18px; line-height: 1; }
+.Card-title { font-size: 14px; font-weight: 500; line-height: 1.45; overflow-wrap: anywhere; }
+.Card-description { font-size: 13px; line-height: 1.5; color: var(--muted); margin: 8px 0 0; }
+.Card:hover { border-color: #8994a2; }
+.Card.gu-transit { opacity: .3; }
+.Card.gu-mirror { cursor: grabbing; box-shadow: 0 8px 24px #171b2226; transform: rotate(1deg); }

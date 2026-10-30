@@ -1,3 +1,17 @@
-.Board {
-  margin-top: 12px;
+.Board-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.Board-heading p { margin: 0; color: var(--muted); }
+.Board-view { background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 8px 12px; white-space: nowrap; }
+.Board-toolbar { display: flex; justify-content: space-between; gap: 12px; margin: 28px 0 20px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+.Board-toolbar > :first-child { font-weight: 500; }
+.Board-toolbar > :last-child { color: var(--muted); font-size: 12px; }
+.Board .container-fluid { padding: 0; }
+/* Three equal tracks plus two 12px gutters fill the entire available canvas. */
+.Board .row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--gap); margin: 0; }
+.Board .col-md-4 { max-width: none; width: auto; padding: 0; }
+@media(max-width: 600px) {
+  .Board-heading { align-items: flex-start; }
+  .Board-view { display: none; }
+  .Board-toolbar { margin-top: 24px; flex-direction: column; gap: 4px; }
+  .Board .row { display: flex; flex-wrap: nowrap; overflow-x: auto; scroll-snap-type: x proximity; padding-bottom: 12px; }
+  .Board .col-md-4 { flex: 0 0 88%; scroll-snap-align: start; }
 }
